@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@font-face {
+  font-family: "BreatheFire";
+  src: local("BreatheFire"),
+   url("./fonts/BreatheFire3.ttf") format("truetype");
+  font-weight: bold;
+  }

@@ -1,0 +1,22 @@
+.cell {
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+    @media (min-width: 768px)  {
+        width: 20%;
+    }
+}
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background-color: #333333;
+    font-size: 0;
+    height: 100vh;
+
+    @media (min-width: 768px)  {
+        flex-direction: column-reverse;
+        justify-content: center;
+    }
+}

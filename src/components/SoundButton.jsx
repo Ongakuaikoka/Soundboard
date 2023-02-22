@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from '../css/SoundButton.module.scss'; 
 
-const SoundButton = ({ category, playing, setPlaying, audio, setAudio, categoryPlaying, setCategoryPlaying }) => {
+const SoundButton = ({ category, playing, setPlaying, audio, setAudio, categoryPlaying, setCategoryPlaying, alreadyPlayed, setAlreadyPlayed }) => {
   const [audioFiles, setAudioFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+
 
 
   useEffect(() => {
@@ -22,22 +23,29 @@ const SoundButton = ({ category, playing, setPlaying, audio, setAudio, categoryP
 
   const startAudio = () => {
     if (playing) {
-      console.log(playing);
       audio.pause();
       setPlaying(false);
     };
     const filteredByCategory = audioFiles.filter(track => track.name.split('/')[0] == categoryName(category.name));
     if (filteredByCategory.length >= 1) {
-      const randomIndex = Math.floor(Math.random() * filteredByCategory.length);
-      const selectedFile = filteredByCategory[randomIndex];
+      let notPlayed = filteredByCategory.filter(i => !alreadyPlayed.includes(i));
+
+      const randomIndex = Math.floor(Math.random() * notPlayed.length);
+      const selectedFile = notPlayed[randomIndex];
+      if (notPlayed.length == 1) {
+        alreadyPlayed = [];
+      }
+      alreadyPlayed.push(selectedFile);
+      setAlreadyPlayed(alreadyPlayed);
       setSelectedFile(selectedFile);
-      const currentAudio = new Audio(filteredByCategory[randomIndex].src);
+      const currentAudio = new Audio(notPlayed[randomIndex].src);
       setAudio(currentAudio);
       currentAudio.play();
       setPlaying(true);
       setCategoryPlaying(selectedFile.name.split('/')[0]);
 
       waitForTheEnd(currentAudio);
+      
     } else {
       window.alert("No tracks in this category.");
     }

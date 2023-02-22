@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import SoundButton from "./SoundButton";
+import styles from '../css/Board.module.scss'; 
 
 const Board = () => {
   const [imageFiles, setImageFiles] = useState([]);
   const [playing, setPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
   const [categoryPlaying, setCategoryPlaying] = useState(null);
+  const [alreadyPlayed, setAlreadyPlayed] = useState([]);
 
   useEffect(() => {
     const fetchImageFiles = async () => {
@@ -22,28 +24,29 @@ const Board = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", backgroundColor: "#333333", fontSize: "0" }}>
-      {imageFiles.map(category => (
-        <div
-          key={category.id}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "50%",
-          }}
-        >
-          <SoundButton 
-            category={category}
-            playing={playing}
-            setPlaying={setPlaying}
-            audio={audio}
-            setAudio={setAudio}
-            categoryPlaying={categoryPlaying}
-            setCategoryPlaying={setCategoryPlaying}
-          />
-        </div>
-      ))}
+    <div className={styles.box}>
+      {imageFiles.map((category) => {
+        let props = {
+          category: category,
+          playing: playing,
+          setPlaying: setPlaying,
+          audio: audio,
+          setAudio: setAudio,
+          categoryPlaying: categoryPlaying,
+          setCategoryPlaying: setCategoryPlaying,
+          alreadyPlayed: alreadyPlayed,
+          setAlreadyPlayed: setAlreadyPlayed,
+        }
+        return (
+          <div
+            key={category.id}
+            className={styles.cell}
+          >
+            <SoundButton {...props}
+            />
+          </div>
+        )
+      })}
     </div>
   );
 };
